@@ -1,21 +1,19 @@
-function SeatGrid({ seats, selectedSeatId, onSelectSeat }) {
+function SeatGrid({ seats, selectedSeatId, onSelectSeat, currencySymbol }) {
   const seatRows = seats.reduce((accumulator, seat) => {
     if (!accumulator[seat.row]) {
-      accumulator[seat.row] = []
+      accumulator[seat.row] = [];
     }
-    accumulator[seat.row].push(seat)
-    return accumulator
-  }, {})
+    accumulator[seat.row].push(seat);
+    return accumulator;
+  }, {});
 
   return (
     <div className="panel">
       <div className="panel-head">
         <div>
-          <p className="section-label">Seat Matrix</p>
-          <h2>A1 to D10 layout</h2>
+          <h2>A1 to D10 seat layout</h2>
         </div>
       </div>
-
       <div className="rows-wrap">
         {Object.entries(seatRows).map(([row, rowSeats]) => (
           <section key={row} className="row-block">
@@ -27,16 +25,22 @@ function SeatGrid({ seats, selectedSeatId, onSelectSeat }) {
                   key={seat.id}
                   type="button"
                   className={[
-                    'seat-card',
-                    seat.id === selectedSeatId ? 'selected' : '',
-                    seat.isBooked ? 'booked' : '',
+                    "seat-card",
+                    seat.id === selectedSeatId ? "selected" : "",
+                    seat.isBooked ? "booked" : "",
                   ]
                     .filter(Boolean)
-                    .join(' ')}
+                    .join(" ")}
                   onClick={() => onSelectSeat(seat)}
                   disabled={seat.isBooked}
                 >
-                  <span className="seat-id">{seat.label}</span>
+                  <div>
+                    <span className="seat-id">{seat.label}</span>
+                    <span className="seat-price">
+                      {currencySymbol} {seat.price}
+                    </span>
+                  </div>
+
                   {seat.isBooked ? (
                     <span className="booked-tag">Already Booked</span>
                   ) : (
@@ -49,7 +53,7 @@ function SeatGrid({ seats, selectedSeatId, onSelectSeat }) {
         ))}
       </div>
     </div>
-  )
+  );
 }
 
-export default SeatGrid
+export default SeatGrid;

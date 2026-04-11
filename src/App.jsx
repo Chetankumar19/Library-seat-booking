@@ -1,10 +1,11 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import './App.css'
 import BookingPanel from './components/BookingPanel'
 import HeaderBanner from './components/HeaderBanner'
 import SearchPanel from './components/SearchPanel'
 import SeatGrid from './components/SeatGrid'
 import { DUMMY_BOOKINGS, FIXED_SEATS, TERM_OPTIONS } from './data/libraryData'
+import { CURRENCY_SYMBOL, DEFAULT_SEAT_PRICE } from './data/seatPricing'
 import { buildSearchRange, formatDate, rangesOverlap, toIsoDate } from './utils/dateRange'
 
 const todayIso = toIsoDate(new Date())
@@ -19,6 +20,21 @@ function App() {
   })
   const [selectedSeatId, setSelectedSeatId] = useState('')
   const [bookingMessage, setBookingMessage] = useState('')
+  const [isMobileView, setIsMobileView] = useState(
+    () => window.innerWidth <= 1080,
+  )
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobileView(window.innerWidth <= 1080)
+    }
+
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
 
   const searchRange = useMemo(
     () => buildSearchRange(activeSearch.startDate, activeSearch.term),
@@ -45,6 +61,7 @@ function App() {
           ...seat,
           isBooked: Boolean(conflictBooking),
           bookedBy: conflictBooking?.user ?? '',
+          price: DEFAULT_SEAT_PRICE,
         }
       }),
     [bookings, searchRange.endDate, searchRange.startDate],
@@ -73,6 +90,9 @@ function App() {
 
     setSelectedSeatId(seat.id)
     setBookingMessage('')
+    if (isMobileView) {
+      setIsPaymentPopupOpen(true)
+    }
   }
 
   const handleConfirmBooking = () => {
@@ -90,7 +110,10 @@ function App() {
 
     setBookings((current) => [...current, newBooking])
     setSelectedSeatId('')
-    setBookingMessage(`${selectedSeat.label} booked for ${activeRangeLabel}.`)
+    setBookingMessage(
+      `${selectedSeat.label} booked for ${activeRangeLabel} at ${CURRENCY_SYMBOL} ${selectedSeat.price}.`,
+    )
+    setIsPaymentPopupOpen(false)
   }
 
   const availableSeatsCount = seatView.filter((seat) => !seat.isBooked).length
@@ -119,16 +142,22 @@ function App() {
             seats={seatView}
             selectedSeatId={selectedSeatId}
             onSelectSeat={handleSelectSeat}
+            currencySymbol={CURRENCY_SYMBOL}
           />
         </div>
 
-        <BookingPanel
-          selectedSeat={selectedSeat}
-          activeRangeLabel={activeRangeLabel}
-          onConfirm={handleConfirmBooking}
-          bookingMessage={bookingMessage}
-        />
+        <div className="desktop-booking">
+          <BookingPanel
+            selectedSeat={selectedSeat}
+            activeRangeLabel={activeRangeLabel}
+            onConfirm={handleConfirmBooking}
+            bookingMessage={bookingMessage}
+            currencySymbol={CURRENCY_SYMBOL}
+          />
+        </div>
       </section>
+
+     
     </main>
   )
 }

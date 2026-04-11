@@ -1,6 +1,13 @@
-function BookingPanel({ selectedSeat, activeRangeLabel, onConfirm, bookingMessage }) {
+function BookingPanel({
+  selectedSeat,
+  activeRangeLabel,
+  onConfirm,
+  bookingMessage,
+  currencySymbol,
+  isPopup = false,
+}) {
   return (
-    <aside className="panel booking-panel">
+    <aside className={isPopup ? 'panel booking-panel popup' : 'panel booking-panel'}>
       <div className="panel-head">
         <div>
           <p className="section-label">Booking Summary</p>
@@ -28,6 +35,12 @@ function BookingPanel({ selectedSeat, activeRangeLabel, onConfirm, bookingMessag
         <article>
           <span>Time range</span>
           <strong>{activeRangeLabel}</strong>
+        </article>
+        <article>
+          <span>Seat price</span>
+          <strong>
+            {currencySymbol} {selectedSeat ? selectedSeat.price : '--'}
+          </strong>
         </article>
       </div>
 

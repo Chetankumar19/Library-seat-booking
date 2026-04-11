@@ -20,7 +20,7 @@
 .selected-seat-header {
   display: flex;
   justify-content: space-between;
-  gap: 16px;
+  gap: 10px;
 }
 
 .topbar,
@@ -71,7 +71,6 @@
 }
 
 .hero-content {
-  margin-top: 28px;
   align-items: flex-end;
 }
 
@@ -87,11 +86,15 @@
   color: rgba(246, 248, 251, 0.82);
 }
 
+.seat-id,
+.seat-price {
+  display: block;
+}
 .stat-grid {
-  display: grid;
+  display: flex;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-  margin-top: 24px;
+  gap: 10px;
+  margin-top: 5px;
 }
 
 .stat-card,
@@ -181,7 +184,7 @@
 
 .field {
   display: grid;
-  gap: 8px;
+  gap: 20px;
 }
 
 .field span {
@@ -260,11 +263,15 @@
   opacity: 0.9;
   cursor: not-allowed;
 }
-
+.seat-id,
+.seat-price {
+  display: block;
+}
 .seat-id {
   font-size: 1.05rem;
   font-weight: 800;
   color: #102033;
+
 }
 
 .booked-tag,
@@ -415,6 +422,46 @@
   }
 
   .seat-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .seat-card {
+    min-height: auto;
+    border-radius: 10px;
+    padding: 8px 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .seat-card > div {
+    order: 2;
+    display: grid;
+    gap: 2px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .booked-tag,
+  .available-tag {
+    position: static;
+    order: 1;
+    display: inline-block;
+    margin: 0 auto;
+    font-size: 0.46rem;
+    padding: 2px 6px;
+  }
+
+  .seat-id {
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  .seat-price {
+    margin-top: 0;
+    font-size: 0.66rem;
+    text-align: center;
   }
 }

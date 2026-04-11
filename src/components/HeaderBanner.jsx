@@ -3,10 +3,9 @@ function HeaderBanner({ totalSeats, availableSeats, unavailableSeats }) {
     <section className="hero-banner">
       <header className="topbar">
         <div>
-          <p className="eyebrow">Central Library</p>
-          <h1>Seat Booking </h1>
+          <h1>Central Library</h1>
+          <h2>Select the seat and procced for the payment</h2>
         </div>
-        <div className="status-pill">Dummy backend mode</div>
       </header>
 
       <div className="hero-content">
@@ -25,6 +24,8 @@ function HeaderBanner({ totalSeats, availableSeats, unavailableSeats }) {
               <span>{unavailableSeats}</span>
               <p>Already booked</p>
             </article>
+            
+            
           </div>
         </div>
 

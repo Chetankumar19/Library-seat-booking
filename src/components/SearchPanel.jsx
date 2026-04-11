@@ -11,7 +11,6 @@ function SearchPanel({
     <div className="panel seat-browser">
       <div className="panel-head">
         <div>
-          <p className="section-label">Search</p>
           <h2>Check seat availability</h2>
         </div>
         <p className="range-label">{activeRangeLabel}</p>
@@ -19,7 +18,7 @@ function SearchPanel({
 
       <div className="search-controls">
         <label className="field">
-          <span>Start date</span>
+          <span >Start date</span>
           <input
             type="date"
             value={startDate}
@@ -41,12 +40,16 @@ function SearchPanel({
           </select>
         </label>
 
-        <button type="button" className="primary-button search-btn" onClick={onSearch}>
+        <button
+          type="button"
+          className="primary-button search-btn"
+          onClick={onSearch}
+        >
           Search
         </button>
       </div>
     </div>
-  )
+  );
 }
 
-export default SearchPanel
+export default SearchPanel;
